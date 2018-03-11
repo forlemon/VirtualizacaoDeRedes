@@ -36,13 +36,30 @@
             user: username
         },
         'pass token',
-        function(err, token){
+        function(err, result){
             if(err){
                 //Gerar token e inserir na DB
+                var generated = randToken.generate(16);
+                token.create({
+                    user: username,
+                    pass: password,
+                    token: generated
+                }, function(err, tk){
+                    if(err){
+                        res.send(err);
+                    }
+                    else{
+                        res.send(generated);
+                    }
+                });
+                res.send(generated);
             }
             else{
                 if(token.pass == password)
                     res.send(token.token);
+                else{
+                    res.send("Wrong password")
+                }
             }
         }
         );
