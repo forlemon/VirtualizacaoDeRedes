@@ -66,6 +66,20 @@
     })
 
     app.post("/mail/validate", function(req, res){
-
+        var received = req.body.token;
+        token.find(
+            {
+                token: received
+            },
+            'user',
+            function(err, result){
+                if(err){
+                    res.send("Not Valid");
+                }
+                else{
+                    res.send("Success");
+                }
+            }
+        )
     })
     
