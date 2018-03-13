@@ -7,7 +7,9 @@
 
         $scope.click = function(){
             $.post("/token", $scope.data, function(data, status){
-                
+                if(status == sucess){
+                    
+                }
             })
         }
     });
