@@ -76,7 +76,6 @@ span.psw {
 
 <h2>Token Form</h2>
 
-<form action="/action_page.php">
   <div class="container">
     <label for="uname"><b>Username</b></label>
     <input type="text" placeholder="Enter Username" name="uname" ng-model="data.user" required>
@@ -84,12 +83,11 @@ span.psw {
     <label for="psw"><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="psw" ng-model="data.pass" required>
         
-    <button type="submit">Submit</button>
+    <button type="submit" ng-click="click()">Submit</button>
   </div>
 
-</form>
 <!--Token:<input type="text" name="token" ng-model="token"></input>-->
-<h1>Token:</h1> <b id="token">{{data.token}}</b>
+<h1>Token:</h1> <b id="token">{{token}}</b>
 
 </body>
 </html>

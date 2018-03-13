@@ -4,13 +4,14 @@
     var auth = angular.module('auth', []);
     auth.controller('authCtrl', function ($scope, $http) {
         $scope.data = {};
-
+        $scope.token;
         $scope.click = function(){
-            $.post("/token", $scope.data, function(data, status){
-                if(status == sucess){
-                    
-                }
-            })
+            $http.post("/token", $scope.data).then(function(response){
+                $scope.token = response.data;
+            });
+        }
+        $scope.change = function(){
+            $scope.token = token;
         }
     });
 

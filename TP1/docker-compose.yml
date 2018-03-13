@@ -1,0 +1,23 @@
+version: '2'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: "mongodb"
+    restart: always
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+      - MONGO_USER=user
+      - MONGO_PASS=pass
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - 27017:27017
+  smtp:
+    image: namshi/smtp:latest
+    container_name: "smtp"
+    restart: always
+    environment:
+      -
+    ports:
+      - 25:25
