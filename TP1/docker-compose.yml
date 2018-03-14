@@ -13,11 +13,44 @@ services:
       - ./data/db:/data/db
     ports:
       - 27017:27017
+    networks:
+      - db-tier
+
+  auth:
+    image: nunocv/authnodetp1 
+    restart: always
+    ports: 
+      - 8081:8081
+    networks: 
+      - db-tier
+      - auth-mail
+    depends_on:
+      - mongodb
+    
+  mail:
+    image: nunocv/mailnodetp1:latest
+    restart: always
+    ports: 
+      - 8082:8082
+    networks: 
+      - auth-mail
+      - mail-server
+
   smtp:
     image: namshi/smtp:latest
     container_name: "smtp"
     restart: always
-    environment:
-      -
     ports:
       - 25:25
+    networks:
+      - mail-server
+
+networks:
+  db-tier:
+    driver: bridge
+
+  auth-mail:
+    driver: bridge
+    
+  mail-server:
+    driver: bridge
