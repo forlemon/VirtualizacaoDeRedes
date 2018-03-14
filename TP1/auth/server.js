@@ -69,17 +69,22 @@ app.post("/token", function (req, res) {
 app.post("/mail/validate", function (req, res) {
     var received = req.body.token;
     console.log("Received Connection from MAIL SERVICE");
-    token.find(
+    Token.find(
         {
             token: received
         },
         'user',
         function (err, result) {
-            if (err) {
-                res.send("Not Valid");
+            var data = {};
+            if (err || result.length == 0) {
+                data.message="Not Valid";
+                res.json(data);
             }
             else {
-                res.send("Success");
+                //console.log(result);
+                data.message="Success";
+                data.email=result[0].user;
+                res.json(data);
             }
         }
     )
