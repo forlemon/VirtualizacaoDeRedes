@@ -42,6 +42,9 @@ services:
     restart: always
     ports:
       - 25:25
+    environment:
+      GMAIL_USER: vr.g3.uminho@gmail.com
+      GMAIL_PASSWORD: grupo3virt
     networks:
       - mail-server
 
