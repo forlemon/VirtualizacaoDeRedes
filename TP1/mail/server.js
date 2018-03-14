@@ -52,19 +52,20 @@ app.post("/mail", function (req, res) {
         else {
             var data = JSON.parse(body);
             res.send(data.message);
-
-            var email = data.email;
-            sendmail({
-                from: 'no-reply@vrg3.gcom.di.uminho.pt',
-                to: 'nunocv96@gmail.com',
-                subject: 'test sendmail',
-                html: 'Mail of test sendmail ',
-              }, function(err, reply) {
-                console.log(err && err.stack);
-                console.dir(reply);
-            });
-        }
-        console.log("EMAIL SENT");
+            if (data.message === "Success") {
+                var email = data.email;
+                sendmail({
+                    from: 'no-reply@vrg3.gcom.di.uminho.pt',
+                    to: 'nunocv96@gmail.com',
+                    subject: 'test sendmail',
+                    html: 'Mail of test sendmail ',
+                }, function (err, reply) {
+                    console.log(err && err.stack);
+                    console.dir(reply);
+                });
+                console.log("EMAIL SENT");
+            }
+        }       
     });
 
 });
