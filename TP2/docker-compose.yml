@@ -1,0 +1,9 @@
+version: '2'
+services:
+  mininet:
+    image: mininet-tp2
+    container_name: "mininet"
+    volumes:
+      - ./data/mininet:/home/mininet
+    ports:
+      - 6633:6653
