@@ -10,7 +10,7 @@ https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343544/
 Na mesma VM floodlight, noutro terminal:
 
 sudo mn --controller=remote,ip=127.0.0.1,port=6653 --custom topologia.py --topo=mytopo
-Este comando cria a topologia
+-Este comando cria a topologia
 
 xterm <host> cria um terminal para um dos hosts.
 
