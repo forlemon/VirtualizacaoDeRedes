@@ -3,6 +3,7 @@
 ## floodlight
 Fazer download da VM floodlight:
 Passos a partir de "Updating an Existing Floodlight Installation":
+https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343544/Installation+Guide
 
 ## mininet
 Na mesma VM floodlight, noutro terminal:
@@ -13,5 +14,6 @@ Este comando cria a topologia
 xterm <host> cria um terminal para um dos hosts.
 
 ## Estes passos a cima criam a base do floodlight e da topologia. Para responder aos passos da parte 1 precisamos de criar um modulo do floodlight
+https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343513/How+to+Write+a+Module
 
 
