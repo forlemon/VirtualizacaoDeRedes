@@ -20,4 +20,9 @@ https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343513/
 Para editar o floodlight e adicionar um módulo, é aconselhado abrir no eclipse, que já vem instalado na VM:
 https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343544/Installation+Guide#InstallationGuide-EclipseIDE
 
+## MACTracker
+Para adicionar o ficheiro do MACTracker, criar pasta "mactracker" em "floodlight/src/main/java/net/floodlightcontroller/" e copiar o ficheiro lá pra dentro.
 
+Depois, é necessário adicionar "net.floodlightcontroller.mactracker.MACTracker" ao fim da linha do ficheiro "floodlight/src/main/resources/META-INF/services/net.floodlightcontroller.core.module.IFloodlightModule"
+
+Por fim, adicionar "net.floodlightcontroller.mactracker.MACTracker" no ficheiro "floodlight/src/main/resources/floodlightdefault.properties", dando um enter a seguir a "net.floodlightcontroller.hasupport.HAController,\" e colando aí.
