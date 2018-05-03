@@ -32,8 +32,7 @@ class MyHost( Host ):
         
 
 
-host = { 'h2': ( lambda: MyHost() ) }
 topos = { 'mytopo': ( lambda: MyTopo() ) }
-
+host = { 'h2': ( lambda: MyHost() ) }
 # Run Command 
 # sudo mn --custom path/topologia.py --topo mytopo --test pingall
