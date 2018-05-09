@@ -1,14 +1,18 @@
 package net.floodlightcontroller.mactracker;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 
 import org.projectfloodlight.openflow.protocol.OFMessage;
+import org.projectfloodlight.openflow.protocol.OFPacketOut;
 import org.projectfloodlight.openflow.protocol.OFType;
+import org.projectfloodlight.openflow.protocol.action.OFAction;
 import org.projectfloodlight.openflow.types.EthType;
 import org.projectfloodlight.openflow.types.IPv4Address;
 import org.projectfloodlight.openflow.types.IpProtocol;
 import org.projectfloodlight.openflow.types.MacAddress;
+import org.projectfloodlight.openflow.types.OFPort;
 import org.projectfloodlight.openflow.types.TransportPort;
 import org.projectfloodlight.openflow.types.VlanVid;
 
@@ -26,6 +30,7 @@ import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.Set;
 
 import net.floodlightcontroller.packet.ARP;
+import net.floodlightcontroller.packet.Data;
 import net.floodlightcontroller.packet.Ethernet;
 import net.floodlightcontroller.packet.IPv4;
 import net.floodlightcontroller.packet.TCP;
@@ -154,6 +159,38 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule {
 
 				/* Various getters and setters are exposed in ARP */
 				boolean gratuitous = arp.isGratuitous();
+
+				Ethernet l2 = new Ethernet();
+				l2.setSourceMACAddress(MacAddress.of("00:00:00:00:00:01"));
+				l2.setDestinationMACAddress(MacAddress.BROADCAST);
+				l2.setEtherType(EthType.IPv4);
+
+				IPv4 l3 = new IPv4();
+				l3.setSourceAddress(IPv4Address.of("192.168.1.1"));
+				l3.setDestinationAddress(IPv4Address.of("192.168.1.255"));
+				l3.setTtl((byte) 64);
+				l3.setProtocol(IpProtocol.UDP);
+
+				UDP l4 = new UDP();
+				l4.setSourcePort(TransportPort.of(65003));
+				l4.setDestinationPort(TransportPort.of(67));
+
+				Data l7 = new Data();
+				l7.setData(new byte[1000]);
+
+				l2.setPayload(l3);
+				l3.setPayload(l4);
+				l4.setPayload(l7);
+
+				byte[] serializedData = l2.serialize();
+
+				OFPacketOut po = sw.getOFFactory().buildPacketOut() /* mySwitch is some IOFSwitch object */
+    				.setData(serializedData)
+    				.setActions(Collections.singletonList((OFAction) sw.getOFFactory().actions().output(OFPort.FLOOD, 0xffFFffFF)))
+    				.setInPort(OFPort.CONTROLLER)
+    				.build();
+
+						sw.write(po);
 
 			} else {
 				/* Unhandled ethertype */
