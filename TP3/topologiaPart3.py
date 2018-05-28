@@ -11,12 +11,12 @@ class MyTopo( Topo ):
         Topo.__init__( self )
 
         # Add hosts and switches
-	client1 = self.addHost( 'c1', mac = '00:00:00:00:00:01' )
-	client2 = self.addHost( 'c2', mac = '00:00:00:00:00:02' )
-	dns1 = self.addHost('d1', mac = '00:00:00:00:00:11')
-	dns2 = self.addHost('d2', mac = '00:00:00:00:00:12')
-	fs2 = self.addHost('fs1', mac = '00:00:00:00:00:22')
-	fs3 = self.addHost('fs2', mac = '00:00:00:00:00:23')
+	client1 = self.addHost( 'c1', ip='10.0.0.1', mac = '00:00:00:00:00:01' )
+	client2 = self.addHost( 'c2', ip='10.0.0.2', mac = '00:00:00:00:00:02' )
+	dns1 = self.addHost('d1', ip='10.0.0.3', mac = '00:00:00:00:00:11')
+	dns2 = self.addHost('d2', ip='10.0.0.4', mac = '00:00:00:00:00:12')
+	fs2 = self.addHost('fs1', ip='10.0.0.5', mac = '00:00:00:00:00:22')
+	fs3 = self.addHost('fs2', ip='10.0.0.6', mac = '00:00:00:00:00:23')
 
         switch1 = self.addSwitch( 's1')
 	switch2 = self.addSwitch( 's2')
