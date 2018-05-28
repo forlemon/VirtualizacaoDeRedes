@@ -11,11 +11,11 @@ class MyTopo( Topo ):
         Topo.__init__( self )
 
         # Add hosts and switches
-        leftHost1 = self.addHost( 'h2' )
-        leftHost2 = self.addHost( 'h3' )
-        rightHost = self.addHost( 'h1' )
-        leftSwitch = self.addSwitch( 's2' )
-        rightSwitch = self.addSwitch( 's1' )
+        leftHost1 = self.addHost( 'h2', mac = '00:00:00:00:00:04' )
+        leftHost2 = self.addHost( 'h3', mac = '00:00:00:00:00:05' )
+        rightHost = self.addHost( 'h1', mac = '00:00:00:00:00:03' )
+        leftSwitch = self.addSwitch( 's2', mac = '00:00:00:00:00:12')
+        rightSwitch = self.addSwitch( 's1', mac = '00:00:00:00:00:11' )
 
         # Add links
         self.addLink( leftHost1, leftSwitch )
@@ -23,16 +23,6 @@ class MyTopo( Topo ):
         self.addLink( leftSwitch, rightSwitch )
         self.addLink( rightSwitch, rightHost )
 
-
-class MyHost( Host ):
- 
-    def __init__( self ):
-	Host.__init__(self)
-	self.setIP("10.0.0.250")
-        
-
-
-host = { 'h2': ( lambda: MyHost() ) }
 topos = { 'mytopo': ( lambda: MyTopo() ) }
 
 # Run Command 
