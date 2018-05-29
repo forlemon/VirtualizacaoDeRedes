@@ -13,7 +13,7 @@ $TTL	604800
       IN      NS      d2.grupo3.example.com.
 
 ; PTR Records
-11.0   IN      PTR     d1.grupo3.example.com.    ; 10.0.0.3
-12.0   IN      PTR     d2.grupo3.example.com.    ; 10.0.0.4
+11.0   IN      PTR     d1.grupo3.example.com.    ; 10.0.0.11
+12.0   IN      PTR     d2.grupo3.example.com.    ; 10.0.0.12
 1.0    IN      PTR     h1.grupo3.example.com.    ; 10.0.0.1
 2.0    IN      PTR     h2.grupo3.example.com.    ; 10.0.0.2

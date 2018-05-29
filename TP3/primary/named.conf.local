@@ -9,11 +9,11 @@
 zone "grupo3.example.com"{
 	type master;
 	file "/etc/bind/zones/db.grupo3.example.com";
-	allow-transfer { 10.0.0.12; };
+	allow-transfer { 10.0.0.4; };
 };
 
 zone "0.10.in-addr.arpa"{
 	type master;
 	file"/etc/bind/zones/db.0.10";
-	allow-transfer { 10.0.0.12; };
+	allow-transfer { 10.0.0.4; };
 };

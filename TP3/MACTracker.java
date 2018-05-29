@@ -45,7 +45,8 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule {
 	protected IFloodlightProviderService floodlightProvider;
 	protected Set<Long> macAddresses;
 	protected static Logger logger;
-	private boolean flag;
+	private boolean flagFS;
+	private boolean flagDNS;
 
 	@Override
 	public String getName() {
@@ -115,38 +116,96 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule {
 					//System.out.println(eth.toString());
 					if((eth.getSourceMACAddress().toString().equals("00:00:00:00:00:02") || eth.getSourceMACAddress().toString().equals("00:00:00:00:00:01") ) && eth.getDestinationMACAddress().toString().equals("ff:ff:ff:ff:ff:ff")) {
 						UDP udp = (UDP) ipv4.getPayload();
-						Ethernet l2 =(Ethernet) eth.clone();
-						IPv4 l3 = (IPv4) ipv4.clone();
-						flag = !flag;
-						if(flag)
-							l2.setDestinationMACAddress("00:00:00:00:00:22");
-						else
-							l2.setDestinationMACAddress("00:00:00:00:00:23");
-						
-						l3.setDestinationAddress("10.0.0.250");
-						/* Various getters and setters are exposed in UDP */
-						TransportPort srcPort = udp.getSourcePort();
-						TransportPort dstPort = udp.getDestinationPort();
-	
-						logger.info("Source Port: {} ", srcPort.toString());
-						logger.info("Destination Port: {} ", dstPort.toString());
-						l2.setPayload(l3);
-						byte[] serializedData = l2.serialize();
-						OFPacketOut po = sw.getOFFactory().buildPacketOut() /* mySwitch is some IOFSwitch object */
-		    				.setData(serializedData)
-		    				.setActions(Collections.singletonList((OFAction) sw.getOFFactory().actions().output(OFPort.FLOOD, 0xffFFffFF)))
-		    				.setInPort(OFPort.CONTROLLER)
-		    				.build();
+						if(ipv4.getDestinationAddress().toString().equals("10.0.0.250")) {
+							Ethernet l2 =(Ethernet) eth.clone();
+							IPv4 l3 = (IPv4) ipv4.clone();
+							flagFS = !flagFS;
+							if(flagFS) {
+								l2.setDestinationMACAddress("00:00:00:00:00:22");
+								System.out.println("Chegou pacote para fs1");
+							}
+							else {
+								l2.setDestinationMACAddress("00:00:00:00:00:23");
+								System.out.println("Chegou pacote para fs2");
+							}
+							l3.setDestinationAddress("10.0.0.250");
+							/* Various getters and setters are exposed in UDP */
+							TransportPort srcPort = udp.getSourcePort();
+							TransportPort dstPort = udp.getDestinationPort();
 		
-						sw.write(po);
-						return Command.STOP;
+							logger.info("Source Port: {} ", srcPort.toString());
+							logger.info("Destination Port: {} ", dstPort.toString());
+							l2.setPayload(l3);
+							byte[] serializedData = l2.serialize();
+							OFPacketOut po = sw.getOFFactory().buildPacketOut() /* mySwitch is some IOFSwitch object */
+			    				.setData(serializedData)
+			    				.setActions(Collections.singletonList((OFAction) sw.getOFFactory().actions().output(OFPort.FLOOD, 0xffFFffFF)))
+			    				.setInPort(OFPort.CONTROLLER)
+			    				.build();
+			
+							sw.write(po);
+							return Command.STOP;
+						}
+						if(ipv4.getDestinationAddress().toString().equals("10.0.0.251") && eth.getSourceMACAddress().toString().equals("00:00:00:00:00:01")) {
+							Ethernet l2 =(Ethernet) eth.clone();
+							IPv4 l3 = (IPv4) ipv4.clone();
+							flagDNS = !flagDNS;
+							if(flagDNS) {
+								l2.setDestinationMACAddress("00:00:00:00:00:11");
+								System.out.println("Chegou pacote para dns1 de 00:00:00:00:00:01");
+							}
+							else {
+								l2.setDestinationMACAddress("00:00:00:00:00:12");
+								System.out.println("Chegou pacote para dns2 de 00:00:00:00:00:01");
+							}
+							l3.setDestinationAddress("10.0.0.251");
+							/* Various getters and setters are exposed in UDP */
+							TransportPort srcPort = udp.getSourcePort();
+							TransportPort dstPort = udp.getDestinationPort();
+		
+							logger.info("Source Port: {} ", srcPort.toString());
+							logger.info("Destination Port: {} ", dstPort.toString());
+							l2.setPayload(l3);
+							byte[] serializedData = l2.serialize();
+							OFPacketOut po = sw.getOFFactory().buildPacketOut() /* mySwitch is some IOFSwitch object */
+			    				.setData(serializedData)
+			    				.setActions(Collections.singletonList((OFAction) sw.getOFFactory().actions().output(OFPort.FLOOD, 0xffFFffFF)))
+			    				.setInPort(OFPort.CONTROLLER)
+			    				.build();
+			
+							sw.write(po);
+							return Command.STOP;
+						}
+						if(ipv4.getDestinationAddress().toString().equals("10.0.0.251") && eth.getSourceMACAddress().toString().equals("00:00:00:00:00:02")) {
+							System.out.println("Chegou pacote para dns1 de 00:00:00:00:00:02");
+							Ethernet l2 =(Ethernet) eth.clone();
+							IPv4 l3 = (IPv4) ipv4.clone();
+							l2.setDestinationMACAddress("00:00:00:00:00:11");
+							l3.setDestinationAddress("10.0.0.251");
+							/* Various getters and setters are exposed in UDP */
+							TransportPort srcPort = udp.getSourcePort();
+							TransportPort dstPort = udp.getDestinationPort();
+		
+							logger.info("Source Port: {} ", srcPort.toString());
+							logger.info("Destination Port: {} ", dstPort.toString());
+							l2.setPayload(l3);
+							byte[] serializedData = l2.serialize();
+							OFPacketOut po = sw.getOFFactory().buildPacketOut() /* mySwitch is some IOFSwitch object */
+			    				.setData(serializedData)
+			    				.setActions(Collections.singletonList((OFAction) sw.getOFFactory().actions().output(OFPort.FLOOD, 0xffFFffFF)))
+			    				.setInPort(OFPort.CONTROLLER)
+			    				.build();
+			
+							sw.write(po);
+							return Command.STOP;
+						}
 					}
 				}
 
 			} else if (eth.getEtherType() == EthType.ARP) {
 				/* We got an ARP packet; get the payload from Ethernet */
 				ARP arp = (ARP) eth.getPayload();
-				if (arp.getTargetProtocolAddress().toString().equals("10.0.0.250") && arp.getOpCode().toString().equals("1")) {
+				if ((arp.getTargetProtocolAddress().toString().equals("10.0.0.250") || arp.getTargetProtocolAddress().toString().equals("10.0.0.251")) && arp.getOpCode().toString().equals("1")) {
 					// && 
 					/* Various getters and setters are exposed in ARP */
 					
@@ -160,13 +219,16 @@ public class MACTracker implements IOFMessageListener, IFloodlightModule {
 					l2.setEtherType(EthType.ARP);
 					l3.setProtocolType(ARP.PROTO_TYPE_IP);
 					l3.setHardwareType(ARP.HW_TYPE_ETHERNET);
-					l3.setSenderProtocolAddress(IPv4Address.of("10.0.0.250"));
+					if(arp.getTargetProtocolAddress().toString().equals("10.0.0.250"))
+						l3.setSenderProtocolAddress(IPv4Address.of("10.0.0.250"));
+					else
+						l3.setSenderProtocolAddress(IPv4Address.of("10.0.0.251"));
 					l3.setTargetHardwareAddress(arp.getSenderHardwareAddress());
 					l3.setTargetProtocolAddress(arp.getSenderProtocolAddress());
 					l3.setOpCode(ArpOpcode.REPLY);
 					l3.setHardwareAddressLength((byte) 0x06);
 					l3.setProtocolAddressLength((byte) 0x04);
-					
+					System.out.println("ARP reencaminhado para " + l3.getTargetHardwareAddress().toString() + " de " + l3.getSenderProtocolAddress().toString());
 	
 					l2.setPayload(l3);
 	

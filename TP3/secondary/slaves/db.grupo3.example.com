@@ -14,8 +14,8 @@ $TTL	604800
      IN      NS	    d2.grupo3.example.com.
 
 ; name servers - A records
-d1.grupo3.example.com.          IN      A       10.0.0.11
-d2.grupo3.example.com.          IN      A       10.0.0.12
+d1.grupo3.example.com.          IN      A       10.0.0.3
+d2.grupo3.example.com.          IN      A       10.0.0.4
 
 ; 10.0.0.0/16 - A records
 h1.grupo3.example.com.        IN      A      10.0.0.1
